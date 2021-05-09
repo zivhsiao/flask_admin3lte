@@ -1,27 +1,25 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="/" class="brand-link">
-      <img src="/static/assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+    <a href="/" class="brand-link text-center" style="width: 100%">
+      <!-- <img src="/static/assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
+      <span class="brand-text font-weight-light">管理界面</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="/static/assets/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
+        
+        <div class="info text-center" style="width: 100%">
           <a href="{{ url_for('base_blueprint.logout') }}" class="d-block">
-            {{ current_user.username }} - Logout
+            {{ current_user.username }} - 登出
           </a>
         </div>
       </div>
 
       <!-- SidebarSearch Form -->
-      <div class="form-inline">
+      <!-- <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
           <div class="input-group-append">
@@ -30,42 +28,21 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview {% if 'index' in segment %} menu-open {% endif %}">
-            <a href="#" class="nav-link {% if 'index' in segment %} active {% endif %}">
+          <!-- <li class="nav-item has-treeview {% if 'index' in segment %} menu-open {% endif %}">
+            <a href="/index.html" class="nav-link {% if 'index' in segment %} active {% endif %}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
-                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/index.html" class="nav-link {% if 'index.html' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/index2.html" class="nav-link {% if 'index2.html' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/index3.html" class="nav-link {% if 'index3.html' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+          </li> -->
           <!-- <li class="nav-item">
             <a href="widgets.html" class="nav-link {% if 'widgets' in segment %} active {% endif %}">
               <i class="nav-icon fas fa-th"></i>
@@ -246,31 +223,24 @@
               </li>
             </ul>
           </li> -->
-          <li class="nav-item has-treeview {% if 'question-' in segment %} menu-open {% endif %}">
-            <a href="#" class="nav-link {% if 'question-' in segment %} active {% endif %}">
+
+          <li class="nav-item has-treeview {% if 'question-type-' in segment %} menu-open {% endif %}">
+            <a href="/question-type-edit" class="nav-link {% if 'question-type-edit' in segment %} active {% endif %}">
               <i class="nav-icon fas fa-question-circle"></i>
               <p>
-                QnA 類別
-                <i class="fas fa-angle-left right"></i>
+                QnA 類別新增/編輯
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/question-type-new" class="nav-link {% if 'question-type-new' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>QnA 新增</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/question-type-edit" class="nav-link {% if 'question-type-edit' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>QnA 瀏覽/編輯</p>
-                </a>
-              </li>
-            </ul>
           </li>
-          
-
+          <li class="nav-item has-treeview {% if 'qna-' in segment %} menu-open {% endif %}">
+            <a href="/qna-edit" class="nav-link {% if 'qna-edit' in segment %} active {% endif %}">
+              <i class="nav-icon fas fa-question-circle"></i>
+              <p>
+                QnA 新增/編輯
+              </p>
+            </a>
+            
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

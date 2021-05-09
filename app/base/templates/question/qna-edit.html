@@ -1,0 +1,245 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} QnA 類別瀏覽/編輯 {% endblock %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="/static/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="/static/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>QnA 新增/編輯</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">QnA 新增/編輯</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <!-- /.card-header -->
+            <div class="card-body">
+              <button type="button" onclick="add_row()"
+                        class="btn btn-primary"><i class="fas fa-plus-square"> 新增</i></button>
+                        <br><br> 
+              <table id="question-type" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>類別名稱</th>
+                    <th>問題 / 答案</th>
+                    <th>關鍵字</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for question in questions %}
+                  <tr>
+                    <td>{{ question.Question.__dict__.get('id') }}</td>
+                    <td>{{ question.QuestionType.__dict__.get('type_name') }}</td>
+                    <td>Q：{{ question.Question.__dict__.get('question') }}<br>
+                      A：{{ question.Question.__dict__.get('answer') }}</td>
+
+                    <td>{{ question.Question.__dict__.get('keyword') }}</td>
+                    <td class="text-right">
+                      
+                      <button type="button" onclick="update_row({{ question.Question.__dict__.get('id') }})"
+                        class="btn btn-success"><i class="fas fa-edit"></i></button>
+                      <button type="button" onclick="delete_row({{ question.Question.__dict__.get('id') }})"
+                        class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                  </tr>
+                  {% endfor %}
+
+                  </tfoot>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+
+<div class="modal fade" id="show_update" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <form method="post" action="/update-question-action">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">更新問題</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              
+              <!-- /.card-header -->
+              <!-- form start -->
+
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="question_type">選擇類別 <span style="color: red">*</span></label>
+                  <select name="question_type" id="question_type" class="form-control">
+                    {% for i in question_type %}
+                      <option value="{{ i.id }}">{{ i.type_name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="question_type">問題 Q <span style="color: red">*</span></label>
+                  <textarea class="form-control" name="question" id="question" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="question_type">解決方案 A<span style="color: red">*</span></label>
+                  <textarea class="form-control" name="answer" id="answer" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="question_type">關鍵字 <span style="color: red">*</span></label>
+                  <textarea class="form-control" name="keyword" id="keyword" cols="30" rows="10"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" name="id" id="id">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">關 閉</button>
+          <button type="submit" class="btn btn-primary">儲 存</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="/static/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/static/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/static/assets/js/demo.js"></script>
+<!-- page script -->
+<script>
+  $(function () {
+    $("#question-type").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+      "language": {
+        url: "/static/assets/datatable/zh_TW.json"
+      },
+      'order': [
+        [0, 'desc']
+      ],
+      "columns": [{
+          "width": "5%"
+        },
+        {
+          "width": "10%"
+        },
+        {
+          "width": "35%"
+        },
+        {
+          "width": "30%"
+        },
+        {
+          "width": "20%"
+        }
+      ],
+      "columnDefs": [{
+        "orderable": false,
+        "targets": [4]
+      }]
+    });
+
+  });
+
+
+  function update_row(id) {
+    $.post('/update-question', {
+      "id": id
+    }, function(data){
+      $('#id').val(data.id)
+      $('#question_type').val(data.question_type)
+      $('#question').val(data.question)
+      $('#answer').val(data.answer)
+      $('#keyword').val(data.keyword)
+
+      $('#show_update').modal();
+    })
+  }
+
+  function add_row(){
+    $('#id').val('')
+    $('#question_type').val('')
+    $('#question').val('')
+    $('#answer').val('')
+    $('#keyword').val('')
+    $('#show_update').modal()
+  }
+
+  function delete_row(id) {
+    if (confirm('確定要刪除嗎？')) {
+      $.post('/delete-question', {
+          'id': id
+        },
+        function (data) {
+          location.reload();
+        })
+    }
+  }
+
+</script>
+
+{% endblock javascripts %}
